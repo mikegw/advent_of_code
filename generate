@@ -1,0 +1,51 @@
+#!/Users/mike/.rbenv/shims/ruby
+# frozen_string_literal: true
+
+require 'fileutils'
+
+year, day = *ARGV
+
+solution_template = <<~RUBY
+  module Solutions
+    module Year%<year>s
+      module Day%<day>s
+        def part_a(input)
+
+        end
+
+        def part_b(input)
+
+        end
+      end
+    end
+  end
+RUBY
+
+skeleton = format(solution_template, year:, day:)
+File.write("solutions/#{year}/#{day}.rb", skeleton)
+
+FileUtils.touch "inputs/#{year}/#{day}"
+
+spec_template = <<~RUBY
+  require 'solutions'
+
+  describe Solutions::Year%<year>s::Day%<day>s do
+    include described_class
+
+    let(:sample) do
+      []
+    end
+
+    it 'matches the sample output for part A' do
+      expect(part_a(sample)).to eq()
+    end
+
+    it 'matches the sample output for part B' do
+      skip
+      expect(part_b(sample)).to eq()
+    end
+  end
+RUBY
+
+spec_skeleton = format(spec_template, year:, day:)
+File.write("spec/#{year}/#{day}_spec.rb", spec_skeleton)

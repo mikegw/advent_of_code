@@ -1,0 +1,18 @@
+#!/Users/mike/.rbenv/shims/ruby
+# frozen_string_literal: true
+
+require_relative './solutions'
+
+year, day, input_path = *ARGV
+
+method = "solution_#{year}_#{day}"
+
+input = File.readlines(input_path || "inputs/#{year}/#{day}", chomp: true)
+
+year_module = Solutions.const_get("Year#{year}")
+day_module = year_module.const_get("Day#{day}")
+
+include day_module
+
+puts "Part A: #{part_a(input)}"
+puts "Part B: #{part_b(input)}"
